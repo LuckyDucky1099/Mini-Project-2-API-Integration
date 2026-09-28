@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Finder</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Meal Finder</h1>
+        <p>Search for a meal and find its recipe.</p>
+    </header>
+
+    <main>
+
+        <form action="/search" method="POST">
+            <input
+                type="text"
+                name="search"
+                placeholder="Enter a meal..."
+                value="<%= search %>"
+                required
+            >
+
+            <button type="submit">Search</button>
+        </form>
+
+        <% if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <% if (meals) { %>
+
+            <div class="meal-container">
+
+                <% meals.forEach(meal => { %>
+
+                    <div class="meal-card">
+
+                        <img
+                            src="<%= meal.strMealThumb %>"
+                            alt="<%= meal.strMeal %>"
+                        >
+
+                        <h2><%= meal.strMeal %></h2>
+
+                        <p>
+                            <strong>Category:</strong>
+                            <%= meal.strCategory %>
+                        </p>
+
+                        <p>
+                            <strong>Area:</strong>
+                            <%= meal.strArea %>
+                        </p>
+
+                        <h3>Ingredients</h3>
+
+                        <ul>
+                            <% for (let i = 1; i <= 20; i++) { %>
+
+                                <% 
+                                const ingredient = meal[`strIngredient${i}`];
+                                const measure = meal[`strMeasure${i}`];
+                                %>
+
+                                <% if (ingredient && ingredient.trim() !== "") { %>
+                                    <li>
+                                        <%= measure %> <%= ingredient %>
+                                    </li>
+                                <% } %>
+
+                            <% } %>
+                        </ul>
+
+                        <h3>Instructions</h3>
+
+                        <p>
+                            <%= meal.strInstructions %>
+                        </p>
+
+                    </div>
+
+                <% }); %>
+
+            </div>
+
+        <% } %>
+
+    </main>
+
+</body>
+</html>
